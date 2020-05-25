@@ -35,7 +35,6 @@ const App: React.FC = () => {
     const onDoubleTask = (id: number) => {
         setTodos(prev => prev.map(task => {
             if (task.id === id) {
-                console.log(task.edit)
 
                 return {
                     ...task,

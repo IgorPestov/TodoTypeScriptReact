@@ -23,6 +23,13 @@ const ListItem: React.FC<ITodoListProps> = ({
         setId(Number(event.target.id))
         setTitle (event.target.value)
     }
+    const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setId(Number(event.target.id))
+        setTitle (event.target.value)
+
+
+    }
+
     return (
         <div>
             {todos.map(task => {
@@ -44,9 +51,11 @@ const ListItem: React.FC<ITodoListProps> = ({
                                onChange={onToggle.bind(null, task.id)}
                                />
                         <input type='text'
-                               id={`${task.id}`}                               value={title}
+                               id={`${task.id}`}
+                               value={title}
                                onKeyPress={onKeyPressEdit}
                                onChange={onChange}
+                               onBlur={onBlur}
                                className={classesEdit.join(' ')}/>
                         <span
                             // className={classesEdit.join(' ')}
