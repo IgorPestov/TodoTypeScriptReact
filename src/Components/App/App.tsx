@@ -48,7 +48,15 @@ const App: React.FC = () => {
         }))
     }
     const taskEdit = (title : string, id: number) => {
-        console.log(title, id)
+        setTodos(prev => prev.map(task => {
+            if(task.id === id) {
+                return {
+                    ...task,
+                    title: title,
+                    edit: !task.edit
+                }
+            } return task
+        }))
 
     }
 
