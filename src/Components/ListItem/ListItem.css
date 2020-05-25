@@ -1,0 +1,12 @@
+.todo.edit {
+    display: none;
+}
+.todo.edit span{
+    display: none;
+}
+.todo.completed span {
+    text-decoration: line-through;
+}
+li {
+    list-style: none;
+}
