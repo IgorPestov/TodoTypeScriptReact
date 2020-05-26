@@ -3,7 +3,7 @@ input[type="radio"] {
 }
 
 input[type="radio"] + .label-radio {
-    opacity: 0.5;
+    opacity: 0.8;
     font-family:Arial, sans-serif;
 }
 
@@ -14,7 +14,7 @@ input[type="radio"] + .label-radio{
     vertical-align:middle;
     background:-38px top no-repeat;
     cursor:pointer;
-
+    border-radius: 20%;
 }
 
 input[type="radio"]:checked + .label-radio {
@@ -24,3 +24,38 @@ input[type="radio"]:checked + .label-radio {
 label {
     margin-left: 3px;
 }
+.item-add-form{
+    position: relative;
+}
+.button-add {
+    position: absolute;
+    display: inline-block;
+    right: 10px;
+    cursor: pointer;
+    background: #dbfaff;
+    color: #686865;
+    width: 50px;
+    height: 25px;
+    border-style: solid; border-radius: 5px; border-color: rgba(0, 0, 0, 0.36);
+
+}
+.button-add:hover {
+    transform: scale(1.1)
+}
+
+.input-add-text {
+    position: absolute;
+    display: inline-block;
+    background: #d6fff7;
+    color: #686865;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgba(21, 19, 19, 0.32);
+}
+.radio {
+    position: absolute;
+    display: inline-block;
+    margin-left: 60%;
+}
+
+

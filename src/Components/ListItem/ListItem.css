@@ -1,12 +1,75 @@
-.todo.edit {
+.todo .edit{
+    display: none;
+    }
+.todo.edit .edit {
+
+    color: #444441;
+    display: inline-block;
+    position: relative;
+    margin-top: 5px;
+    left: 5%;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgba(21, 19, 19, 0.32);
+}
+
+.item.edit  {
     display: none;
 }
-.todo.edit span{
+.todo.edit .item {
     display: none;
 }
-.todo.completed span {
+.todo.completed .item {
     text-decoration: line-through;
 }
+.list-item{
+    position: relative;
+}
+.item {
+    position: absolute;
+    margin-top: 5px;
+    left: 10%;
+}
+.span-checkbox {
+    margin: 0;
+    border-style: solid; border-width: 0 1px 0 0 ; color: #ffffff;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
 li {
+    position: relative;
+    height: 30px;
+    color: #423e3e;
     list-style: none;
+    margin: 1px;
+    border-radius: 5px;
+
+}
+
+
+.button-delete {
+    position: absolute;
+    background-color: #dbfaff;
+    display: inline-block;
+    margin-top: 5px;
+    color: #686865;
+    right: 10px;
+    width: 70px;
+    height: 20px;
+    border-radius: 5px;
+    border-style: none;
+    opacity: 0.5;
+}
+.button-delete:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.checkbox {
+    margin-right: 0;
+    margin-left: 9px;
+    margin-top: 9px;
 }

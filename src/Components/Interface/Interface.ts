@@ -7,9 +7,8 @@ export interface ITodo {
 }
 
 export interface ITodoTitle {
-    onAdd(title: string): void
+    onAdd(title: string, color: string): void
 }
-
 
 
 export interface ITodoListProps {
@@ -21,7 +20,7 @@ export interface ITodoListProps {
 
     onRemove(id: number): void
 
-    taskEdit(title: string, id: number): void
+    taskEdit(title: string, id: number, edit?:boolean): void
 
 
 

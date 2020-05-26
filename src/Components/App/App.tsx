@@ -6,13 +6,13 @@ import {ITodo} from "../Interface/Interface";
 const App: React.FC = () => {
 
     const [todos, setTodos] = useState<ITodo[]>([])
-    const AddHandler = (title: string) => {
+    const AddHandler = (title: string, color: string) => {
         const newTodo: ITodo = {
             title: title,
             id: Date.now(),
             completed: false,
             edit: true,
-            color: "#f7b0ff"
+            color: color
         }
         setTodos(prev => [newTodo, ...todos])
     }
@@ -38,7 +38,7 @@ const App: React.FC = () => {
 
                 return {
                     ...task,
-                    edit: !task.edit
+                    edit: !task.edit,
                 }
             }
 
@@ -46,23 +46,26 @@ const App: React.FC = () => {
 
         }))
     }
-    const taskEdit = (title : string, id: number) => {
+    const taskEdit = (title : string, id: number, edit: boolean) => {
         setTodos(prev => prev.map(task => {
+
             if(task.id === id) {
+
                 return {
                     ...task,
                     title: title,
-                    edit: !task.edit
+                    edit: edit,
                 }
+
             } return task
+
         }))
 
     }
 
 
-
     return (
-        <div>
+        <div className='container'>
             <TodoList
                 onDouble={onDoubleTask}
                 onToggle={onToggleTask}

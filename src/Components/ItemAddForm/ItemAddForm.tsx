@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, { useState} from "react";
 import {ITodoTitle} from "../Interface/Interface";
 
 import './ItemAddForm.css'
@@ -6,19 +6,20 @@ import './ItemAddForm.css'
 const ItemAddFrom: React.FC<ITodoTitle> = (props) => {
 
     const [title, setTitle] = useState<string>('')
-    const [color, setColor] = useState<string>('')
+    const [color, setColor] = useState<string>('rgb(247, 176, 255)');
+
     const keyPressAdd = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
                         if(title === '') { return false}
 
-                props.onAdd(title)
+                props.onAdd(title, color)
                 setTitle('')
 
             }
         }
         const onClickAdd = (event : React.MouseEvent) => {
             if(title === '') { return false}
-            props.onAdd(title)
+            props.onAdd(title,color)
 
             setTitle('');
         }
@@ -27,18 +28,19 @@ const ItemAddFrom: React.FC<ITodoTitle> = (props) => {
         }
 
         const onChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-
+            setColor(event.currentTarget.style.background);
         }
 
         return (
-            <div>
+            <div className='item-add-form'>
                 <input type='text'
                        onChange={changeAdd}
                        placeholder='Enter task'
                        value={title}
                        onKeyPress={keyPressAdd}
+                       className='input-add-text'
                 />
-                <div>
+                <div className='radio'>
                     <input type='radio'
                            id='1'
                            value='1'
@@ -101,7 +103,7 @@ const ItemAddFrom: React.FC<ITodoTitle> = (props) => {
 
 
                 </div>
-                <input onClick={onClickAdd} type='button' value='Add'/>
+                <input className='button-add' onClick={onClickAdd} type='button' value='Add'/>
 
             </div>
         )
