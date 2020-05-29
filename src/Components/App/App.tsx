@@ -1,79 +1,111 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TodoList from "../TodoList/TodoList";
 import ItemAddFrom from "../ItemAddForm/ItemAddForm";
 import {ITodo} from "../Interface/Interface";
+import APIHelper from "../../APIHelper";
 
 const App: React.FC = () => {
 
     const [todos, setTodos] = useState<ITodo[]>([])
-    const AddHandler = (title: string, color: string) => {
-        const newTodo: ITodo = {
-            title: title,
-            id: Date.now(),
-            completed: false,
-            edit: true,
-            color: color
+
+    useEffect( () => {
+        const fetchTodoAndSetTodos = async () =>{
+            const todos = await  APIHelper.getAllTodos()
+            setTodos(todos)
         }
-        setTodos(prev => [newTodo, ...todos])
-    }
+        fetchTodoAndSetTodos()
+    }, [])
 
-    const onRemoveTask = (id: number) => {
-        setTodos(prev => prev.filter(task => task.id !== id))
-    }
-    const onToggleTask = (id: number) => {
-        setTodos(prev => prev.map(task => {
-            if (task.id === id) {
-                console.log(task.completed)
-                return {
-                    ...task,
-                    completed: !task.completed
-                }
-            }
-            return task
-        }))
-    }
-    const onDoubleTask = (id: number) => {
-        setTodos(prev => prev.map(task => {
-            if (task.id === id) {
+    // const AddHandler = (title: string, color: string,) => {
+    //     const newTodo: ITodo = {
+    //         title: title,
+    //         _id: {},
+    //         completed: false,
+    //         edit: true,
+    //         color: color
+    //     }
+    //     setTodos(prev => [newTodo, ...todos])
+    // }
 
-                return {
-                    ...task,
-                    edit: !task.edit,
-                }
-            }
+    // const onRemoveTask = (id: number) => {
+    //     setTodos(prev => prev.filter(task => task.id !== id))
+    // }
+    // const onToggleTask = (id: number) => {
+    //     setTodos(prev => prev.map(task => {
+    //         if (task.id === id) {
+    //             console.log(task.completed)
+    //             return {
+    //                 ...task,
+    //                 completed: !task.completed
+    //             }
+    //         }
+    //         return task
+    //     }))
+    // }
+    // const onDoubleTask = (id: number) => {
+    //     setTodos(prev => prev.map(task => {
+    //         if (task.id === id) {
+    //
+    //             return {
+    //                 ...task,
+    //                 edit: !task.edit,
+    //             }
+    //         }
+    //
+    //         return task
+    //
+    //     }))
+    // }
+    // const taskEdit = (title : string, id: number, edit: boolean) => {
+    //     setTodos(prev => prev.map(task => {
+    //
+    //         if(task.id === id) {
+    //
+    //             return {
+    //                 ...task,
+    //                 title: title,
+    //                 edit: edit,
+    //             }
+    //
+    //         } return task
+    //
+    //     }))
+    //
+    // }
+    const deleteTodo = async (e:any, id: any) => {
+        try {
+            e.stopPropagation()
+            await APIHelper.deleteTodo(id)
 
-            return task
+            setTodos(todos.filter(({_id: i}) => id !== i))
 
-        }))
-    }
-    const taskEdit = (title : string, id: number, edit: boolean) => {
-        setTodos(prev => prev.map(task => {
-
-            if(task.id === id) {
-
-                return {
-                    ...task,
-                    title: title,
-                    edit: edit,
-                }
-
-            } return task
-
-        }))
-
+        } catch (err) {
+        }
     }
 
 
     return (
         <div className='container'>
-            <TodoList
-                onDouble={onDoubleTask}
-                onToggle={onToggleTask}
-                onRemove={onRemoveTask}
-                taskEdit={taskEdit}
-                // changeColor={changeColor}
-                todos={todos}/>
-            <ItemAddFrom onAdd={AddHandler}/>
+            {/*<TodoList*/}
+            {/*    onDouble={onDoubleTask}*/}
+            {/*    onToggle={onToggleTask}*/}
+            {/*    onRemove={onRemoveTask}*/}
+            <ul>
+                {todos.map(({_id, task, completed}, i) => (
+                    <li
+                        key={i}
+                        // onDoubleClick={e => updateTodo(e, _id)}
+                        className={completed ? "completed" : ""}
+                    >
+                        {task} <span onClick={e => deleteTodo(e, _id)}>X</span>
+                    </li>
+                ))}
+            </ul>
+            {/*    taskEdit={taskEdit}*/}
+            {/*    // changeColor={changeColor}*/}
+            {/*    todos={todos}/>*/}
+            <ItemAddFrom />
+            {/*<ItemAddFrom onAdd={AddHandler}/>*/}
         </div>
     )
 }

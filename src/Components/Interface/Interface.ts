@@ -1,13 +1,13 @@
 export interface ITodo {
-    title: string,
-    id: number,
-    completed: boolean,
+    task: string,
+    _id: any,
+    completed: any,
     edit: boolean,
     color: string
 }
 
 export interface ITodoTitle {
-    onAdd(title: string, color: string): void
+    // onAdd(title: string, color: string): void
 }
 
 
