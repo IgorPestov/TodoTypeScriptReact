@@ -8,76 +8,84 @@ const App: React.FC = () => {
 
     const [todos, setTodos] = useState<ITodo[]>([])
 
-    useEffect( () => {
-        const fetchTodoAndSetTodos = async () =>{
-            const todos = await  APIHelper.getAllTodos()
+    const [todo, setTodo] = useState<any>("")
+
+
+    useEffect(() => {
+
+        const fetchTodoAndSetTodos = async () => {
+            const todos = await APIHelper.getAllTodos()
             setTodos(todos)
         }
+
         fetchTodoAndSetTodos()
     }, [])
 
-    // const AddHandler = (title: string, color: string,) => {
-    //     const newTodo: ITodo = {
-    //         title: title,
-    //         _id: {},
-    //         completed: false,
-    //         edit: true,
-    //         color: color
-    //     }
-    //     setTodos(prev => [newTodo, ...todos])
-    // }
+    const createTodo = async (color: string, todo: string) => {
+        // if(!todo) {
+        //     return
+        // }
+        // if(todos.some(({task}:any) =>task === todo)) {
+        //     return <div><span>The task is already there</span></div>
+        // }
+        const newTodo = await APIHelper.createTodo(todo, color)
+        setTodos([...todos, newTodo])
 
-    // const onRemoveTask = (id: number) => {
-    //     setTodos(prev => prev.filter(task => task.id !== id))
-    // }
-    // const onToggleTask = (id: number) => {
-    //     setTodos(prev => prev.map(task => {
-    //         if (task.id === id) {
-    //             console.log(task.completed)
-    //             return {
-    //                 ...task,
-    //                 completed: !task.completed
-    //             }
-    //         }
-    //         return task
-    //     }))
-    // }
-    // const onDoubleTask = (id: number) => {
-    //     setTodos(prev => prev.map(task => {
-    //         if (task.id === id) {
-    //
-    //             return {
-    //                 ...task,
-    //                 edit: !task.edit,
-    //             }
-    //         }
-    //
-    //         return task
-    //
-    //     }))
-    // }
-    // const taskEdit = (title : string, id: number, edit: boolean) => {
-    //     setTodos(prev => prev.map(task => {
-    //
-    //         if(task.id === id) {
-    //
-    //             return {
-    //                 ...task,
-    //                 title: title,
-    //                 edit: edit,
-    //             }
-    //
-    //         } return task
-    //
-    //     }))
-    //
-    // }
-    const deleteTodo = async (e:any, id: any) => {
+        setTodo('')
+
+
+    }
+
+    const onToggleTask = async (_id: string) => {
         try {
-            e.stopPropagation()
-            await APIHelper.deleteTodo(id)
+            await APIHelper.updateTodo(_id)
+            const complete: any = todos.find(todo => todo._id === _id)
+            const payload = {
+                completed: !complete.completed,
 
-            setTodos(todos.filter(({_id: i}) => id !== i))
+            }
+            const updateTodo = await APIHelper.updateTodo(_id, payload)
+            setTodos(todos.map(todo => (todo._id === _id ? updateTodo : todo)))
+        } catch (err) {}
+    }
+    const onDoubleTask = async (_id: string) => {
+
+
+        try {
+            await APIHelper.updateTodo(_id)
+
+            const edit: any = todos.find(todo => todo._id === _id)
+
+            const payload = {
+                edit: !edit
+
+            }
+            const updatedTodo = await APIHelper.updateTodo(_id, payload)
+            setTodos(todos.map(todo => (todo._id === _id ? updatedTodo : todo)))
+        } catch (err) {}
+
+    }
+    const taskEdit = async (todo: string, _id: string, edit: boolean) => {
+
+        try {
+            await APIHelper.updateTodo(_id)
+            const payload = {
+                task: todo,
+                edit: edit,
+            }
+            const updateTodo = await APIHelper.updateTodo(_id, payload)
+            setTodos((todos.map(todo => todo._id === _id ? updateTodo : todo)))
+
+
+        } catch (err) { }
+
+    }
+    const deleteTodo = async (_id: string) => {
+        try {
+
+            await APIHelper.deleteTodo(_id)
+
+            setTodos(todos.filter(({_id: i}) => _id !== i))
 
         } catch (err) {
         }
@@ -86,26 +94,13 @@ const App: React.FC = () => {
 
     return (
         <div className='container'>
-            {/*<TodoList*/}
-            {/*    onDouble={onDoubleTask}*/}
-            {/*    onToggle={onToggleTask}*/}
-            {/*    onRemove={onRemoveTask}*/}
-            <ul>
-                {todos.map(({_id, task, completed}, i) => (
-                    <li
-                        key={i}
-                        // onDoubleClick={e => updateTodo(e, _id)}
-                        className={completed ? "completed" : ""}
-                    >
-                        {task} <span onClick={e => deleteTodo(e, _id)}>X</span>
-                    </li>
-                ))}
-            </ul>
-            {/*    taskEdit={taskEdit}*/}
-            {/*    // changeColor={changeColor}*/}
-            {/*    todos={todos}/>*/}
-            <ItemAddFrom />
-            {/*<ItemAddFrom onAdd={AddHandler}/>*/}
+            <TodoList
+                onDouble={onDoubleTask}
+                onToggle={onToggleTask}
+                onRemove={deleteTodo}
+                taskEdit={taskEdit}
+                todos={todos}/>
+            <ItemAddFrom createTodoFunc={createTodo}/>
         </div>
     )
 }

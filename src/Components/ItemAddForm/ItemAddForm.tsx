@@ -1,55 +1,29 @@
 import React, { useState} from "react";
 import {ITodoTitle} from "../Interface/Interface";
-import APIHelper from "../../APIHelper";
 
 import './ItemAddForm.css'
 
 const ItemAddFrom: React.FC<ITodoTitle> = (props) => {
 
-    const [title, setTitle] = useState<string>('')
     const [color, setColor] = useState<string>('rgb(247, 176, 255)');
-
-    const [todos, setTodos] = useState<any>([])
     const [todo, setTodo] = useState<any>("")
 
-    const createTodo = async (e: any) => {
-          e.preventDefault();
-          // if(!todo) {
-          //     return
-          // }
-          // if(todos.some(({task}:any) =>task === todo)) {
-          //     return <div><span>The task is already there</span></div>
-          // }
-          const newTodo = await APIHelper.createTodo(todo,color)
-        // props.onAdd(title, color)
-        setTodos([...todos, newTodo])
-        console.log(todos)
+    const createTodo = () => {
+        props.createTodoFunc(color,todo)
         setTodo('')
-
-
     }
-    // const keyPressAdd = (event: React.KeyboardEvent) => {
-    //     if (event.key === 'Enter') {
-    //         if (title === '') {
-    //             return false
-    //         }
-    //
-    //         // props.onAdd(title, color)
-    //         setTitle('')
-    //
-    //     }
-    // }
-    // const onClickAdd = (event: React.MouseEvent) => {
-    //     if (title === '') {
-    //         return false
-    //     }
-    //     // props.onAdd(title, color)
-    //
-    //     setTitle('');
-    // }
-    // const changeAdd = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setTitle(event.target.value)
-    // }
+
+    const keyPressAdd = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            if (todo === '') {
+                return false
+            }
+
+            props.createTodoFunc(color,todo)
+            setTodo('')
+
+        }
+    }
 
     const onChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
         setColor(event.currentTarget.style.background);
@@ -58,12 +32,10 @@ const ItemAddFrom: React.FC<ITodoTitle> = (props) => {
     return (
         <div className='item-add-form'>
             <input type='text'
-                   // onChange={changeAdd}
                    placeholder='Enter task'
                    value={todo}
                    onChange={({target}) => setTodo(target.value)}
-                   // value={title}
-                   // onKeyPress={keyPressAdd}
+                   onKeyPress={keyPressAdd}
                    className='input-add-text'
             />
             <div className='radio'>

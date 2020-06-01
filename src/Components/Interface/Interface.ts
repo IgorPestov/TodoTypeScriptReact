@@ -1,26 +1,26 @@
 export interface ITodo {
     task: string,
-    _id: any,
-    completed: any,
+    _id: string,
+    completed: boolean,
     edit: boolean,
     color: string
 }
 
 export interface ITodoTitle {
-    // onAdd(title: string, color: string): void
+    createTodoFunc(color: string, title: string): void
 }
 
 
 export interface ITodoListProps {
-    todos: ITodo[];
+    todos :  ITodo[];
 
-    onToggle(id: number): void
+    onToggle(_id: string): void
 
-    onDouble(id: number): void
+    onDouble(_id: string): void
 
-    onRemove(id: number): void
+    onRemove(_id: string): void
 
-    taskEdit(title: string, id: number, edit?:boolean): void
+    taskEdit(todo: string, _id: string, edit:boolean): void
 
 
 
