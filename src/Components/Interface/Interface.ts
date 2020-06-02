@@ -1,7 +1,7 @@
 export interface ITodo {
     task: string,
     _id: string,
-    completed: boolean,
+    editColor: boolean,
     edit: boolean,
     color: string
 }
@@ -12,7 +12,7 @@ export interface ITodoTitle {
 
 
 export interface ITodoListProps {
-    todos :  ITodo[];
+    todos: ITodo[];
 
     onToggle(_id: string): void
 
@@ -20,8 +20,9 @@ export interface ITodoListProps {
 
     onRemove(_id: string): void
 
-    taskEdit(todo: string, _id: string, edit:boolean): void
+    taskEdit(todo: string, _id: string, edit: boolean): void
 
+    changeColor( color:string):void
 
 
 

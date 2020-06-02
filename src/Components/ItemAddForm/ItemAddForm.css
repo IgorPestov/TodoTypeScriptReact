@@ -1,29 +1,4 @@
-input[type="radio"] {
-    display:none;
-}
 
-input[type="radio"] + .label-radio {
-    opacity: 0.8;
-    font-family:Arial, sans-serif;
-}
-
-input[type="radio"] + .label-radio{
-    display:inline-block;
-    width:19px;
-    height:19px;
-    vertical-align:middle;
-    background:-38px top no-repeat;
-    cursor:pointer;
-    border-radius: 20%;
-}
-
-input[type="radio"]:checked + .label-radio {
-    transform: scale(1.2);
-    opacity: 1;
-}
-label {
-    margin-left: 3px;
-}
 .item-add-form{
     position: relative;
 }
@@ -52,10 +27,8 @@ label {
     border: none;
     border-bottom: 2px solid rgba(21, 19, 19, 0.32);
 }
-.radio {
-    position: absolute;
-    display: inline-block;
-    margin-left: 60%;
-}
+
+
+
 
 
